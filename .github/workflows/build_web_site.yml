@@ -1,0 +1,50 @@
+name: build_web_site
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout develop
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.74.2'
+          extended: true
+#          npm install
+#          npm i -g hexo-cli
+
+      - name: Build
+        run: |
+          cd web_site
+          mkdir static/assets
+          mkdir static/assets/css
+          hugo gen chromastyles --style=solarized-light > ./static/assets/css/syntax.css
+          hugo gen chromastyles --style=vim > ./static/assets/css/syntax.css
+          hugo --minify
+          cd ..
+
+      - name: Commit
+        run: |
+          git config --global user.email "imagire@gmail.com"
+          git config --global user.name "github workflow"
+          git add .
+          git commit -m 'reconstruct website'
+          git status
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+          force: true
