@@ -298,7 +298,7 @@ static Application*pApp = nullptr;// ★アプリケーションの初期化が�
 }
 {{< /highlight >}}
 
-更新処理は、「WM_PAINT」イベント行います。
+更新処理は、「WM_PAINT」イベントで行います。
 
 {{< highlight cpp "linenos=table, hl_lines=9-13, linenostart=92">}}
 //
