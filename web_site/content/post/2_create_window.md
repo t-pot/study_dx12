@@ -299,6 +299,8 @@ static Application*pApp = nullptr;// ★アプリケーションの初期化が�
 {{< /highlight >}}
 
 更新処理は、「WM_PAINT」イベントで行います。
+アプリケーションが初期化されたのかをグローバル変数がnullptrでないかで判断をして、nullptrなければ、OnUpdate メソッドを呼び出します。
+返り値が何かあれば、終了のサインと見なして、終了のリクエストを出します。
 
 {{< highlight cpp "linenos=table, hl_lines=9-13, linenostart=92">}}
 //
