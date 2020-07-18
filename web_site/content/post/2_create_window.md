@@ -157,6 +157,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 {{< /highlight >}}
 
+実行してウィンドウが表示されれば成功です。
+![実行結果](result.png)
+
 ## アプリケーションクラスの導入
 
 さて、今まで説明した処理は、Windows 特有の処理でした。
