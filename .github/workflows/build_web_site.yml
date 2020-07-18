@@ -27,12 +27,9 @@ jobs:
       - name: Build
         run: |
           cd web_site
-          mkdir static/assets
-          mkdir static/assets/css
-          hugo gen chromastyles --style=solarized-light > ./static/assets/css/syntax.css
-          hugo gen chromastyles --style=vim > ./static/assets/css/syntax.css
           hugo --minify
           cd ..
+          ls -lsa
 
       - name: Commit
         run: |
