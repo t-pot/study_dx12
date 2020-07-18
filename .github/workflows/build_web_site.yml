@@ -29,14 +29,13 @@ jobs:
           cd web_site
           hugo --minify
           cd ..
-          ls -lsa
 
       - name: Commit
         run: |
           git config --global user.email "imagire@gmail.com"
           git config --global user.name "github workflow"
           git add .
-          git commit -m 'reconstruct website'
+          git commit -m 'generate website'
           git status
 
       - name: Push changes
