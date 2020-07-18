@@ -1,18 +1,21 @@
-﻿+++
-title = "1. 導入"
-date = 2020-07-15T00:00:01+08:00
-description = "はじめのページ"
-tags = [
+﻿---
+title: "1. 導入"
+draft: false
+date: 2020-07-15T00:00:01+08:00
+lastmod: 200-07-18T01:53:34+08:00
+description: "はじめのページ"
+tags: [
     "DirextX12"
 ]
-showToc = false
-+++
+categories: ["DirextX12"]
+showToc: false
+---
 
-# はじめに
+## はじめに
 
 セットアップの話になります。
 
-# 必要なもの
+## 必要なもの
 
 つぎの物が必要です。
 

@@ -1,22 +1,27 @@
-﻿+++
-title = "2. ウィンドウの生成"
-date = 2020-07-15T00:00:02+08:00
-description = "ウィンドウの生成"
-tags = [
+﻿---
+title: "2. ウィンドウの生成"
+draft: false
+date: 2020-07-15T00:00:02+08:00
+lastmod: 2020-07-18T00:00:00+08:00
+description: "ウィンドウの生成"
+tags: [
     "DirextX12"
 ]
-showToc = false
-+++
+categories: ["DirextX12"]
+showToc: false
+---
 
-# はじめに
+## はじめに
 
 Win32アプリケーションとして、ウィンドウを表示します。
 
-# Windowsの表示
+## Windowsの表示
 
 まずは、アプリケーションを作成します。
 
 [今回のソースコード](https://github.com/t-pot/study_dx12/tree/master/src/2_1_create_window/)
+
+### ソリューションの構築
 
 VisualStudioを立ち上げたら、どのプロジェクトを立ち上げるか聞かれるので、新規のプロジェクトを作成するようにします。
 今後、同じプロジェクトを立ち上げるのであれば、左側の最近使ったプロジェクトから選択したり、プロジェクトを読み込みます。
@@ -28,6 +33,10 @@ VisualStudioを立ち上げたら、どのプロジェクトを立ち上げる�
 ![Visual Studio Installer](configure.png)
 
 すると、いろいろなファイルが作られます。
+
+### ソースコード
+
+
 最初に実行されるエントリーポイントの関数 wWinMain は、プロジェクト名のファイルとして作られます。
 中身を整理してみました。その中を見ていきましょう。
 
@@ -148,7 +157,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 {{< /highlight >}}
 
-# アプリケーションクラスの導入
+## アプリケーションクラスの導入
 
 さて、今まで説明した処理は、Windows 特有の処理でした。
 今後、移植性のことを考えたりすると、ウィンドウズクラスのことは極力忘れていきたいです。
@@ -158,7 +167,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 [今回のソースコード](https://github.com/t-pot/study_dx12/tree/master/src/2_2_application_class/)
 
-## アプリケーションクラス
+### アプリケーションクラス
 
 ひとまずのクラスを導入してみましょう。
 application.h をヘッダファイルとします。
@@ -212,7 +221,7 @@ int Application::OnUpdate()
 }
 {{< /highlight >}}
 
-## アプリケーションクラスの利用
+### アプリケーションクラスの利用
 
 アプリケーションクラスをmain関数に組み込みます。main.cppでヘッダファイルをインクルードして、
 汚いですが、クラスインスタンスのポインタを保持するようにしてみましょう。
@@ -269,7 +278,7 @@ static Application*pApp = nullptr;// ★アプリケーションの初期化が�
 
 なお、片付けはメインのメッセージループから抜けてから実行します。
 
-{{< highlight cpp "linenos=table, hl_lines=9-13, linenostart=92">}}
+{{< highlight cpp "linenos=table, hl_lines=11, linenostart=76">}}
 	// メイン メッセージ ループ:
 	MSG msg;
 	do
@@ -288,7 +297,7 @@ static Application*pApp = nullptr;// ★アプリケーションの初期化が�
 
 更新処理は、「WM_PAINT」イベント行います。
 
-```cpp  {linenos=table, hl_lines=9-13, linenostart=92}
+{{< highlight cpp "linenos=table, hl_lines=9-13, linenostart=92">}}
 //
 //  メイン ウィンドウのイベントメッセージの処理
 //
@@ -311,4 +320,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return 0;
 }
-```
+{{< /highlight >}}
