@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: http://t-pot.com/study_dx12/sitemap.xml

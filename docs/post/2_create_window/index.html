@@ -1,0 +1,437 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>2. ウィンドウの生成 - t-pot - DirectX 12 の学習</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="imagire"><meta name=description content="ウィンドウの生成"><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.74.2 with theme even"><link rel=canonical href=http://t-pot.com/study_dx12/post/2_create_window/><link rel=apple-touch-icon sizes=180x180 href=/study_dx12/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/study_dx12/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/study_dx12/favicon-16x16.png><link rel=manifest href=/study_dx12/manifest.json><link rel=mask-icon href=/study_dx12/safari-pinned-tab.svg color=#5bbad5><link href=/study_dx12/sass/main.min.78f8f17bab244b9ee62ad16480c9584d5fc2db06ae20681d1ca225cefd80767c.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="2. ウィンドウの生成"><meta property="og:description" content="ウィンドウの生成"><meta property="og:type" content="article"><meta property="og:url" content="http://t-pot.com/study_dx12/post/2_create_window/"><meta property="article:published_time" content="2020-07-15T00:00:02+08:00"><meta property="article:modified_time" content="2020-07-18T00:00:00+08:00"><meta itemprop=name content="2. ウィンドウの生成"><meta itemprop=description content="ウィンドウの生成"><meta itemprop=datePublished content="2020-07-15T00:00:02+08:00"><meta itemprop=dateModified content="2020-07-18T00:00:00+08:00"><meta itemprop=wordCount content="3143"><meta itemprop=keywords content="DirextX12,"><meta name=twitter:card content="summary"><meta name=twitter:title content="2. ウィンドウの生成"><meta name=twitter:description content="ウィンドウの生成"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/study_dx12/ class=logo>T-pot - DirectX 12 の学習</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/study_dx12/><li class=mobile-menu-item>Home</li></a><a href=/study_dx12/post/><li class=mobile-menu-item>Archives</li></a><a href=/study_dx12/tags/><li class=mobile-menu-item>Tags</li></a><a href=/study_dx12/categories/><li class=mobile-menu-item>Categories</li></a><a href=/study_dx12/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/study_dx12/ class=logo>T-pot - DirectX 12 の学習</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/study_dx12/>Home</a></li><li class=menu-item><a class=menu-item-link href=/study_dx12/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/study_dx12/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/study_dx12/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/study_dx12/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>2. ウィンドウの生成</h1><div class=post-meta><span class=post-time>2020-07-15</span><div class=post-category><a href=/study_dx12/categories/dirextx12/>DirextX12</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>コンテンツ</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#はじめに>はじめに</a></li><li><a href=#windowsの表示>Windowsの表示</a><ul><li><a href=#ソリューションの構築>ソリューションの構築</a></li><li><a href=#ソースコード>ソースコード</a></li></ul></li><li><a href=#アプリケーションクラスの導入>アプリケーションクラスの導入</a><ul><li><a href=#アプリケーションクラス>アプリケーションクラス</a></li><li><a href=#アプリケーションクラスの利用>アプリケーションクラスの利用</a></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=はじめに>はじめに</h2><p>Win32アプリケーションとして、ウィンドウを表示します。</p><h2 id=windowsの表示>Windowsの表示</h2><p>まずは、アプリケーションを作成します。</p><p><a href=https://github.com/t-pot/study_dx12/tree/master/src/2_1_create_window/>今回のソースコード</a></p><h3 id=ソリューションの構築>ソリューションの構築</h3><p>VisualStudioを立ち上げたら、どのプロジェクトを立ち上げるか聞かれるので、新規のプロジェクトを作成するようにします。
+今後、同じプロジェクトを立ち上げるのであれば、左側の最近使ったプロジェクトから選択したり、プロジェクトを読み込みます。
+<img src=start.png alt="Visual Studio Installer"></p><p>プロジェクトは、「Windows デスクトップアプリケーション」を作成してください。
+<img src=create_project.png alt="Visual Studio Installer">
+次のページで、プロジェクトの名前を入力します。今後、いろいろとファイルを追加していくこともあり、「main」というプロジェクトを作ろうと思います。
+<img src=configure.png alt="Visual Studio Installer"></p><p>すると、いろいろなファイルが作られます。</p><h3 id=ソースコード>ソースコード</h3><p>最初に実行されるエントリーポイントの関数 wWinMain は、プロジェクト名のファイルとして作られます。
+中身を整理してみました。その中を見ていきましょう。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp><span class=cp>#include</span> <span class=cpf>&#34;targetver.h&#34;                  // リソースファイルでも使われているので残す</span><span class=cp>
+</span><span class=cp>#define WIN32_LEAN_AND_MEAN             </span><span class=c1>// Windows ヘッダーからほとんど使用されていない部分を除外する
+</span><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;windows.h&gt;                    // Windows ヘッダー ファイル</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&#34;resource.h&#34;                   // アイコン</span><span class=cp>
+</span><span class=cp></span>
+
+<span class=c1>// このコード モジュールに含まれる関数の宣言:
+</span><span class=c1></span><span class=n>LRESULT</span> <span class=n>CALLBACK</span>    <span class=nf>WndProc</span><span class=p>(</span><span class=n>HWND</span><span class=p>,</span> <span class=n>UINT</span><span class=p>,</span> <span class=n>WPARAM</span><span class=p>,</span> <span class=n>LPARAM</span><span class=p>);</span>
+
+<span class=kt>int</span> <span class=n>APIENTRY</span> <span class=nf>wWinMain</span><span class=p>(</span>
+    <span class=n>_In_</span> <span class=n>HINSTANCE</span> <span class=n>hInstance</span><span class=p>,</span>
+    <span class=n>_In_opt_</span> <span class=n>HINSTANCE</span> <span class=n>hPrevInstance</span><span class=p>,</span>
+    <span class=n>_In_</span> <span class=n>LPWSTR</span>    <span class=n>lpCmdLine</span><span class=p>,</span>
+    <span class=n>_In_</span> <span class=kt>int</span>       <span class=n>nCmdShow</span><span class=p>)</span>
+<span class=p>{</span>
+	<span class=c1>// 使わない引数の宣言
+</span><span class=c1></span>    <span class=n>UNREFERENCED_PARAMETER</span><span class=p>(</span><span class=n>hPrevInstance</span><span class=p>);</span>
+    <span class=n>UNREFERENCED_PARAMETER</span><span class=p>(</span><span class=n>lpCmdLine</span><span class=p>);</span>
+</code></pre></td></tr></table></div></div><p>wWinMain 関数では、いろいろなパラメータを設定して、RegisterClassExW の後で CreateWindowW を呼び出します。
+これらの呼び出しは定番なので、そんなものと思いましょう。</p><p>CreateWindowW の呼び出しが上手くいったら、ShowWindow 関数を呼び出してWindowを表示します。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp>	<span class=c1>// 初期化用パラメータ
+</span><span class=c1></span>	<span class=k>const</span> <span class=kt>int</span> <span class=n>width</span> <span class=o>=</span> <span class=mi>800</span><span class=p>;</span>
+	<span class=k>const</span> <span class=kt>int</span> <span class=n>height</span> <span class=o>=</span> <span class=mi>600</span><span class=p>;</span>
+	<span class=k>const</span> <span class=n>WCHAR</span> <span class=o>*</span><span class=n>szWindowClass</span> <span class=o>=</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;window class name&#34;</span><span class=p>);</span>  <span class=c1>// ウィンドウクラス名
+</span><span class=c1></span>	<span class=k>const</span> <span class=n>WCHAR</span> <span class=o>*</span><span class=n>szTitle</span> <span class=o>=</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;window title&#34;</span><span class=p>);</span>             <span class=c1>// タイトルバーの文字列
+</span><span class=c1></span>
+	<span class=c1>// ウィンドウ クラスを登録
+</span><span class=c1></span>	<span class=n>WNDCLASSEXW</span> <span class=n>wcex</span><span class=p>;</span>
+	<span class=n>wcex</span><span class=p>.</span><span class=n>cbSize</span> <span class=o>=</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>WNDCLASSEX</span><span class=p>);</span>                 <span class=c1>// この構造体のサイズ
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>style</span> <span class=o>=</span> <span class=n>CS_HREDRAW</span> <span class=o>|</span> <span class=n>CS_VREDRAW</span><span class=p>;</span>             <span class=c1>// ウィンドウの挙動の指定
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>lpfnWndProc</span> <span class=o>=</span> <span class=n>WndProc</span><span class=p>;</span>                       <span class=c1>// イベントのコールバック関数の指定
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>cbClsExtra</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>                              <span class=c1>// ウィンドウクラス構造体の追加バイト数
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>cbWndExtra</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>                              <span class=c1>// ウィンドウインスタンスの追加バイト数
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>hInstance</span> <span class=o>=</span> <span class=n>hInstance</span><span class=p>;</span>                       <span class=c1>// アプリケーションのインスタンス
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>hIcon</span> <span class=o>=</span> <span class=n>LoadIcon</span><span class=p>(</span><span class=n>hInstance</span><span class=p>,</span> <span class=n>MAKEINTRESOURCE</span><span class=p>(</span><span class=n>IDI_MAIN</span><span class=p>));</span><span class=c1>// アイコン
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>hCursor</span> <span class=o>=</span> <span class=n>LoadCursor</span><span class=p>(</span><span class=k>nullptr</span><span class=p>,</span> <span class=n>IDC_ARROW</span><span class=p>);</span>    <span class=c1>// カーソル
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>hbrBackground</span> <span class=o>=</span> <span class=p>(</span><span class=n>HBRUSH</span><span class=p>)(</span><span class=n>COLOR_WINDOW</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>  <span class=c1>// 背景ブラシ
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>lpszMenuName</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>                      <span class=c1>// メニュー
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>lpszClassName</span> <span class=o>=</span> <span class=n>szWindowClass</span><span class=p>;</span>               <span class=c1>// ウィンドウクラス名
+</span><span class=c1></span>	<span class=n>wcex</span><span class=p>.</span><span class=n>hIconSm</span> <span class=o>=</span> <span class=n>LoadIcon</span><span class=p>(</span><span class=n>wcex</span><span class=p>.</span><span class=n>hInstance</span><span class=p>,</span> <span class=n>MAKEINTRESOURCE</span><span class=p>(</span><span class=n>IDI_SMALL</span><span class=p>));</span><span class=c1>// 小さいアイコン
+</span><span class=c1></span>	<span class=n>RegisterClassExW</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wcex</span><span class=p>);</span>
+
+	<span class=c1>// メイン ウィンドウを作成
+</span><span class=c1></span>	<span class=n>HWND</span> <span class=n>hWnd</span> <span class=o>=</span> <span class=n>CreateWindowW</span><span class=p>(</span>
+		<span class=n>szWindowClass</span><span class=p>,</span>                      <span class=c1>// ウィンドウクラス名
+</span><span class=c1></span>		<span class=n>szTitle</span><span class=p>,</span>                            <span class=c1>// タイトルバー文字列
+</span><span class=c1></span>		<span class=n>WS_OVERLAPPEDWINDOW</span><span class=p>,</span>                <span class=c1>// 生成するウィンドウ種類
+</span><span class=c1></span>		<span class=n>CW_USEDEFAULT</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span>                   <span class=c1>// ウィンドウの位置
+</span><span class=c1></span>		<span class=n>width</span><span class=p>,</span> <span class=n>height</span><span class=p>,</span>                      <span class=c1>// ウィンドウのサイズ
+</span><span class=c1></span>		<span class=k>nullptr</span><span class=p>,</span>                            <span class=c1>// 親ウィンドウ
+</span><span class=c1></span>		<span class=k>nullptr</span><span class=p>,</span>                            <span class=c1>// メニューバー
+</span><span class=c1></span>		<span class=n>hInstance</span><span class=p>,</span>                          <span class=c1>// アプリケーションのインスタンス
+</span><span class=c1></span>		<span class=k>nullptr</span><span class=p>);</span>                           <span class=c1>// WM_CREATE メッセージに渡すパラメータ
+</span><span class=c1></span>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>hWnd</span><span class=p>)</span> <span class=p>{</span><span class=c1>// 失敗時
+</span><span class=c1></span>		<span class=n>MessageBox</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;メイン ウィンドウの生成に失敗しました&#34;</span><span class=p>),</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;Error!&#34;</span><span class=p>),</span> <span class=n>MB_OK</span> <span class=o>|</span> <span class=n>MB_ICONEXCLAMATION</span><span class=p>);</span>
+		<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+	<span class=p>}</span>
+
+	<span class=c1>// ウィンドウの表示
+</span><span class=c1></span>	<span class=n>ShowWindow</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>nCmdShow</span><span class=p>);</span>
+	<span class=n>UpdateWindow</span><span class=p>(</span><span class=n>hWnd</span><span class=p>);</span>
+</code></pre></td></tr></table></div></div><p>アプリケーションが立ち上がったら無限ループを回します。
+キーが押されたなどの各種イベントを読み込んで、処理をして、終了のメッセージが来るまで続けます。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp>	<span class=c1>// メイン メッセージ ループ:
+</span><span class=c1></span>	<span class=n>MSG</span> <span class=n>msg</span><span class=p>;</span>
+	<span class=k>do</span>
+	<span class=p>{</span>
+		<span class=k>if</span> <span class=p>(</span><span class=n>PeekMessage</span><span class=p>(</span><span class=o>&amp;</span><span class=n>msg</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=mi>0U</span><span class=p>,</span> <span class=mi>0U</span><span class=p>,</span> <span class=n>PM_REMOVE</span><span class=p>))</span> <span class=p>{</span><span class=c1>// イベントがあるか調べる
+</span><span class=c1></span>			<span class=n>TranslateMessage</span><span class=p>(</span><span class=o>&amp;</span><span class=n>msg</span><span class=p>);</span> <span class=c1>// キーの分析
+</span><span class=c1></span>			<span class=n>DispatchMessage</span><span class=p>(</span><span class=o>&amp;</span><span class=n>msg</span><span class=p>);</span>  <span class=c1>// イベント処理
+</span><span class=c1></span>		<span class=p>}</span>
+	<span class=p>}</span> <span class=k>while</span> <span class=p>(</span><span class=n>msg</span><span class=p>.</span><span class=n>message</span> <span class=o>!=</span> <span class=n>WM_QUIT</span><span class=p>);</span>
+
+    <span class=k>return</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=n>msg</span><span class=p>.</span><span class=n>wParam</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><p>ウィンドウで発生するイベントですが、これは、WndProc という関数で処理をします。
+この関数自体は、RegisterClassExW の引数でコールバック関数として指定します。</p><p>今後、この関数の「WM_PAINT」のイベントとして、ゲームの処理を挿入していくことになります。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp><span class=c1>//
+</span><span class=c1>//  メイン ウィンドウのイベントメッセージの処理
+</span><span class=c1>//
+</span><span class=c1></span><span class=n>LRESULT</span> <span class=n>CALLBACK</span> <span class=nf>WndProc</span><span class=p>(</span><span class=n>HWND</span> <span class=n>hWnd</span><span class=p>,</span> <span class=n>UINT</span> <span class=n>message</span><span class=p>,</span> <span class=n>WPARAM</span> <span class=n>wParam</span><span class=p>,</span> <span class=n>LPARAM</span> <span class=n>lParam</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=k>switch</span> <span class=p>(</span><span class=n>message</span><span class=p>)</span>
+    <span class=p>{</span>
+	<span class=k>case</span> <span class=nl>WM_PAINT</span><span class=p>:</span>
+		<span class=c1>// ここに描画処理が入る
+</span><span class=c1></span>		<span class=k>break</span><span class=p>;</span>
+	<span class=k>case</span> <span class=nl>WM_DESTROY</span><span class=p>:</span> <span class=c1>// 中止メッセージ
+</span><span class=c1></span>        <span class=n>PostQuitMessage</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+        <span class=k>break</span><span class=p>;</span>
+    <span class=k>default</span><span class=o>:</span>
+        <span class=k>return</span> <span class=n>DefWindowProc</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>message</span><span class=p>,</span> <span class=n>wParam</span><span class=p>,</span> <span class=n>lParam</span><span class=p>);</span><span class=c1>// ディフォルト処理をする
+</span><span class=c1></span>    <span class=p>}</span>
+    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><p>実行してウィンドウが表示されれば成功です。
+<img src=result.png alt=実行結果></p><h2 id=アプリケーションクラスの導入>アプリケーションクラスの導入</h2><p>さて、今まで説明した処理は、Windows 特有の処理でした。
+今後、移植性のことを考えたりすると、ウィンドウズクラスのことは極力忘れていきたいです。
+この場合の対処方法として、アプリケーションのクラスを作って、そのクラスでゲームを作っていくのが定番の一つです。</p><p>今回は、ここで「初期化」、「片付け」、「毎フレームの更新」をするのに注力するアプリケーションクラスを導入しようと思います。</p><p><a href=https://github.com/t-pot/study_dx12/tree/master/src/2_2_application_class/>今回のソースコード</a></p><h3 id=アプリケーションクラス>アプリケーションクラス</h3><p>ひとまずのクラスを導入してみましょう。
+application.h をヘッダファイルとします。</p><p>ウィンドウハンドルやウィンドウ解像度は必要になるので、それらを引数として受け取る初期化関数をもつクラスを作ります。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp><span class=cp>#pragma once
+</span><span class=cp></span>
+<span class=cp>#define WIN32_LEAN_AND_MEAN   </span><span class=c1>// Windows ヘッダーからほとんど使用されていない部分を除外する
+</span><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;windows.h&gt;          // Windows ヘッダー (HWND用)</span><span class=cp>
+</span><span class=cp></span>
+<span class=k>class</span> <span class=nc>Application</span> <span class=p>{</span>
+<span class=k>public</span><span class=o>:</span>
+	<span class=n>Application</span><span class=p>();</span>
+	<span class=o>~</span><span class=n>Application</span><span class=p>();</span>
+
+	<span class=kt>int</span> <span class=nf>OnInit</span><span class=p>(</span><span class=n>HWND</span> <span class=n>hwnd</span><span class=p>,</span> <span class=kt>int</span> <span class=n>width</span><span class=p>,</span> <span class=kt>int</span> <span class=n>height</span><span class=p>);</span><span class=c1>// 初期化：終了時は返り値に-1
+</span><span class=c1></span>	<span class=kt>void</span> <span class=nf>OnDestroy</span><span class=p>();</span>
+
+	<span class=kt>int</span> <span class=nf>OnUpdate</span><span class=p>();</span><span class=c1>// フレーム更新：終了時は返り値に-1
+</span><span class=c1></span><span class=p>};</span>
+</code></pre></td></tr></table></div></div><p>中身は、ひとまず空っぽです。
+実装ファイルは application.cpp とします。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp><span class=cp>#include</span> <span class=cpf>&#34;application.h&#34;</span><span class=cp>
+</span><span class=cp></span>
+<span class=n>Application</span><span class=o>::</span><span class=n>Application</span><span class=p>()</span>
+<span class=p>{</span>
+<span class=p>}</span>
+
+<span class=n>Application</span><span class=o>::~</span><span class=n>Application</span><span class=p>()</span>
+<span class=p>{</span>
+<span class=p>}</span>
+
+<span class=kt>int</span> <span class=n>Application</span><span class=o>::</span><span class=n>OnInit</span><span class=p>(</span><span class=n>HWND</span> <span class=n>hwnd</span><span class=p>,</span> <span class=kt>int</span> <span class=n>width</span><span class=p>,</span> <span class=kt>int</span> <span class=n>height</span><span class=p>)</span>
+<span class=p>{</span>
+	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
+
+<span class=kt>void</span> <span class=n>Application</span><span class=o>::</span><span class=n>OnDestroy</span><span class=p>()</span>
+<span class=p>{</span>
+<span class=p>}</span>
+
+<span class=kt>int</span> <span class=n>Application</span><span class=o>::</span><span class=n>OnUpdate</span><span class=p>()</span>
+<span class=p>{</span>
+	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><h3 id=アプリケーションクラスの利用>アプリケーションクラスの利用</h3><p>アプリケーションクラスをmain関数に組み込みます。main.cppでヘッダファイルをインクルードして、
+汚いですが、クラスインスタンスのポインタを保持するようにしてみましょう。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=hl><span class=lnt> 5
+</span></span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=hl><span class=lnt>12
+</span></span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp><span class=cp>#include</span> <span class=cpf>&#34;targetver.h&#34;                  // リソースファイルでも使われているので残す</span><span class=cp>
+</span><span class=cp>#define WIN32_LEAN_AND_MEAN             </span><span class=c1>// Windows ヘッダーからほとんど使用されていない部分を除外する
+</span><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;windows.h&gt;                    // Windows ヘッダー ファイル</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&#34;resource.h&#34;                   // アイコン</span><span class=cp>
+</span><span class=hl><span class=cp>#include</span> <span class=cpf>&#34;application.h&#34;                // ★アプリケーションクラスの利用</span><span class=cp>
+</span></span><span class=cp></span>
+
+<span class=c1>// このコード モジュールに含まれる関数の宣言:
+</span><span class=c1></span><span class=n>LRESULT</span> <span class=n>CALLBACK</span>    <span class=nf>WndProc</span><span class=p>(</span><span class=n>HWND</span><span class=p>,</span> <span class=n>UINT</span><span class=p>,</span> <span class=n>WPARAM</span><span class=p>,</span> <span class=n>LPARAM</span><span class=p>);</span>
+
+<span class=c1>// グローバル変数
+</span><span class=hl><span class=c1></span><span class=k>static</span> <span class=n>Application</span><span class=o>*</span><span class=n>pApp</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span><span class=c1>// ★アプリケーションの初期化が終わったら代入される
+</span></span></code></pre></td></tr></table></div></div><p>アプリケーションクラスの初期化は、CreateWindowW が成功してからウィンドウを表示する前に行います。
+これで、画面が表示される前にいろいろな初期化を用意することができます。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=hl><span class=lnt>47
+</span></span><span class=hl><span class=lnt>48
+</span></span><span class=hl><span class=lnt>49
+</span></span><span class=hl><span class=lnt>50
+</span></span><span class=hl><span class=lnt>51
+</span></span><span class=hl><span class=lnt>52
+</span></span><span class=hl><span class=lnt>53
+</span></span><span class=hl><span class=lnt>54
+</span></span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp>	<span class=c1>// メイン ウィンドウを作成
+</span><span class=c1></span>	<span class=n>HWND</span> <span class=n>hWnd</span> <span class=o>=</span> <span class=n>CreateWindowW</span><span class=p>(</span>
+		<span class=n>szWindowClass</span><span class=p>,</span>                      <span class=c1>// ウィンドウクラス名
+</span><span class=c1></span>		<span class=n>szTitle</span><span class=p>,</span>                            <span class=c1>// タイトルバー文字列
+</span><span class=c1></span>		<span class=n>WS_OVERLAPPEDWINDOW</span><span class=p>,</span>                <span class=c1>// 生成するウィンドウ種類
+</span><span class=c1></span>		<span class=n>CW_USEDEFAULT</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span>                   <span class=c1>// ウィンドウの位置
+</span><span class=c1></span>		<span class=n>width</span><span class=p>,</span> <span class=n>height</span><span class=p>,</span>                      <span class=c1>// ウィンドウのサイズ
+</span><span class=c1></span>		<span class=k>nullptr</span><span class=p>,</span>                            <span class=c1>// 親ウィンドウ
+</span><span class=c1></span>		<span class=k>nullptr</span><span class=p>,</span>                            <span class=c1>// メニューバー
+</span><span class=c1></span>		<span class=n>hInstance</span><span class=p>,</span>                          <span class=c1>// アプリケーションのインスタンス
+</span><span class=c1></span>		<span class=k>nullptr</span><span class=p>);</span>                           <span class=c1>// WM_CREATE メッセージに渡すパラメータ
+</span><span class=c1></span>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>hWnd</span><span class=p>)</span> <span class=p>{</span><span class=c1>// 失敗時
+</span><span class=c1></span>		<span class=n>MessageBox</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;メイン ウィンドウの生成に失敗しました&#34;</span><span class=p>),</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;Error!&#34;</span><span class=p>),</span> <span class=n>MB_OK</span> <span class=o>|</span> <span class=n>MB_ICONEXCLAMATION</span><span class=p>);</span>
+		<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+	<span class=p>}</span>
+
+<span class=hl>	<span class=c1>// ★アプリケーションクラスの初期化
+</span></span><span class=hl><span class=c1></span>	<span class=n>Application</span> <span class=n>app</span><span class=p>;</span>
+</span><span class=hl>	<span class=k>if</span> <span class=p>(</span><span class=n>app</span><span class=p>.</span><span class=n>OnInit</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>width</span><span class=p>,</span> <span class=n>height</span><span class=p>))</span>
+</span><span class=hl>	<span class=p>{</span>
+</span><span class=hl>		<span class=n>MessageBox</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;アプリケーションクラスの初期化に失敗しました&#34;</span><span class=p>),</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;Error!&#34;</span><span class=p>),</span> <span class=n>MB_OK</span> <span class=o>|</span> <span class=n>MB_ICONEXCLAMATION</span><span class=p>);</span>
+</span><span class=hl>		<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span><span class=hl>	<span class=p>}</span>
+</span><span class=hl>	<span class=n>pApp</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>app</span><span class=p>;</span>
+</span>
+	<span class=c1>// ウィンドウの表示
+</span><span class=c1></span>	<span class=n>ShowWindow</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>nCmdShow</span><span class=p>);</span>
+	<span class=n>UpdateWindow</span><span class=p>(</span><span class=n>hWnd</span><span class=p>);</span>
+</code></pre></td></tr></table></div></div><p>なお、片付けはメインのメッセージループから抜けてから実行します。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=hl><span class=lnt>86
+</span></span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp>	<span class=c1>// メイン メッセージ ループ:
+</span><span class=c1></span>	<span class=n>MSG</span> <span class=n>msg</span><span class=p>;</span>
+	<span class=k>do</span>
+	<span class=p>{</span>
+		<span class=k>if</span> <span class=p>(</span><span class=n>PeekMessage</span><span class=p>(</span><span class=o>&amp;</span><span class=n>msg</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=mi>0U</span><span class=p>,</span> <span class=mi>0U</span><span class=p>,</span> <span class=n>PM_REMOVE</span><span class=p>))</span> <span class=p>{</span><span class=c1>// イベントがあるか調べる
+</span><span class=c1></span>			<span class=n>TranslateMessage</span><span class=p>(</span><span class=o>&amp;</span><span class=n>msg</span><span class=p>);</span> <span class=c1>// キーの分析
+</span><span class=c1></span>			<span class=n>DispatchMessage</span><span class=p>(</span><span class=o>&amp;</span><span class=n>msg</span><span class=p>);</span>  <span class=c1>// イベント処理
+</span><span class=c1></span>		<span class=p>}</span>
+	<span class=p>}</span> <span class=k>while</span> <span class=p>(</span><span class=n>msg</span><span class=p>.</span><span class=n>message</span> <span class=o>!=</span> <span class=n>WM_QUIT</span><span class=p>);</span>
+
+<span class=hl>	<span class=n>app</span><span class=p>.</span><span class=n>OnDestroy</span><span class=p>();</span><span class=c1>// ★ゲームエンジンの後片付け
+</span></span><span class=c1></span>
+    <span class=k>return</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=n>msg</span><span class=p>.</span><span class=n>wParam</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><p>更新処理は、「WM_PAINT」イベントで行います。
+アプリケーションが初期化されたのかをグローバル変数がnullptrでないかで判断をして、nullptrなければ、OnUpdate メソッドを呼び出します。
+返り値が何かあれば、終了のサインと見なして、終了のリクエストを出します。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=hl><span class=lnt>100
+</span></span><span class=hl><span class=lnt>101
+</span></span><span class=hl><span class=lnt>102
+</span></span><span class=hl><span class=lnt>103
+</span></span><span class=hl><span class=lnt>104
+</span></span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cpp data-lang=cpp><span class=c1>//
+</span><span class=c1>//  メイン ウィンドウのイベントメッセージの処理
+</span><span class=c1>//
+</span><span class=c1></span><span class=n>LRESULT</span> <span class=n>CALLBACK</span> <span class=nf>WndProc</span><span class=p>(</span><span class=n>HWND</span> <span class=n>hWnd</span><span class=p>,</span> <span class=n>UINT</span> <span class=n>message</span><span class=p>,</span> <span class=n>WPARAM</span> <span class=n>wParam</span><span class=p>,</span> <span class=n>LPARAM</span> <span class=n>lParam</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=k>switch</span> <span class=p>(</span><span class=n>message</span><span class=p>)</span>
+    <span class=p>{</span>
+    <span class=k>case</span> <span class=nl>WM_PAINT</span><span class=p>:</span>
+<span class=hl>		<span class=c1>// ★ゲームエンジンのフレーム毎の処理
+</span></span><span class=hl><span class=c1></span>		<span class=k>if</span> <span class=p>(</span><span class=n>pApp</span> <span class=o>&amp;&amp;</span> <span class=n>pApp</span><span class=o>-&gt;</span><span class=n>OnUpdate</span><span class=p>())</span> <span class=p>{</span><span class=c1>// 0以外で終了
+</span></span><span class=hl><span class=c1></span>			<span class=n>pApp</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span><span class=c1>// すぐにOnUpdateを呼べなくする
+</span></span><span class=hl><span class=c1></span>			<span class=n>PostQuitMessage</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span><span class=c1>// 終了リクエスト
+</span></span><span class=hl><span class=c1></span>		<span class=p>}</span>
+</span>        <span class=k>break</span><span class=p>;</span>
+    <span class=k>case</span> <span class=nl>WM_DESTROY</span><span class=p>:</span> <span class=c1>// 中止メッセージ
+</span><span class=c1></span>        <span class=n>PostQuitMessage</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+        <span class=k>break</span><span class=p>;</span>
+    <span class=k>default</span><span class=o>:</span>
+        <span class=k>return</span> <span class=n>DefWindowProc</span><span class=p>(</span><span class=n>hWnd</span><span class=p>,</span> <span class=n>message</span><span class=p>,</span> <span class=n>wParam</span><span class=p>,</span> <span class=n>lParam</span><span class=p>);</span><span class=c1>// ディフォルト処理をする
+</span><span class=c1></span>    <span class=p>}</span>
+    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div></div><div class=post-copyright><p class=copyright-item><span class=item-title>作成者</span>
+<span class=item-content>imagire</span></p><p class=copyright-item><span class=item-title>最終更新時刻</span>
+<span class=item-content>2020-07-18</span></p></div><footer class=post-footer><div class=post-tags><a href=/study_dx12/tags/dirextx12/>DirextX12</a></div><nav class=post-nav><a class=prev href=/study_dx12/post/3_dx12/><i class="iconfont icon-left"></i><span class="prev-text nav-default">3. DirectX12の導入</span>
+<span class="prev-text nav-mobile">前の記事へ</span></a>
+<a class=next href=/study_dx12/post/1_intro/><span class="next-text nav-default">1. 導入</span>
+<span class="next-text nav-mobile">次の記事へ</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:imagire@gmail.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/imagire class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/t-pot class="iconfont icon-github" title=github></a><a href=http://t-pot.com/study_dx12/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>imagire</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/study_dx12/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script></body></html>
